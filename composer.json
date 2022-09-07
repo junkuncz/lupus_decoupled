@@ -1,0 +1,18 @@
+{
+  "name": "drupal/lupus_decoupled",
+  "description": "Ready-to-go Decoupled Drupal with Nuxt.js!",
+  "type": "drupal-module",
+  "license": "GPL-1.0-or-later",
+  "keywords": [
+    "Drupal",
+    "Decoupled"
+  ],
+  "homepage": "https://www.drupal.org/project/lupus_decoupled",
+  "require": {
+    "drunomics/service-utils": "*",
+    "drupal/custom_elements": "^2.0",
+    "drupal/lupus_ce_renderer": "^2.1.0",
+    "drupal/trusted_redirect": "^1.9.0",
+    "drupal/core": "^9 || ^10"
+  }
+}

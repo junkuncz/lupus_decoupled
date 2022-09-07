@@ -1,0 +1,11 @@
+name: 'Lupus Decoupled Custom Elements API'
+description: 'Provides custom elements API at /ce-api'
+type: module
+package: Lupus Decoupled Drupal
+
+core_version_requirement: 8.x || ^9
+dependencies:
+  - trusted_redirect:trusted_redirect
+  - lupus_ce_renderer:lupus_ce_renderer
+  - custom_elements:custom_elements
+  - drupal:path_alias

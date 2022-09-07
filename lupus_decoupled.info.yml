@@ -1,0 +1,6 @@
+name: 'Lupus Decoupled'
+description: 'Ready-to-go Decoupled Drupal with Nuxt.js!'
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - lupus_decoupled_ce_api:lupus_decoupled_ce_api
