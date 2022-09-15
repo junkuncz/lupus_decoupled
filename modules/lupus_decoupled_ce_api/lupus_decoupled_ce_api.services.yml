@@ -1,0 +1,10 @@
+services:
+  lupus_decoupled_ce_api.middleware.backendapi:
+    class: Drupal\lupus_decoupled_ce_api\BackendApiRequest
+    # Note that kernel argument is automatically added for the middleware.
+    arguments: ['%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%']
+    tags:
+      - { name: http_middleware, priority: 150 }
+parameters:
+  # Parameter that allows customizing api prefix per project.
+  lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix: '/ce-api'
