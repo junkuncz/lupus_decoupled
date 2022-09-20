@@ -1,0 +1,10 @@
+name: 'Lupus Decoupled Menu'
+description: 'Provides menu API endpoints for Drupal menus'
+type: module
+package: Lupus Decoupled Drupal
+
+core_version_requirement: 8.x || ^9
+dependencies:
+  - custom_elements:custom_elements
+  - lupus_decoupled:lupus_decoupled_ce_api
+  - rest_menu_items:rest_menu_items

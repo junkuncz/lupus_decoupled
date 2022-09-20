@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Install, uninstall and update hooks for lupus_decoupled_menu module.
+ */
+
+use Drupal\Core\Config\FileStorage;
+
+/**
+ * Add config for rest_menu_items.
+ *
+ * @todo Improve the way configs are added in #3304540.
+ */
+function lupus_decoupled_menu_install() {
+  $module_handler = \Drupal::service('module_handler');
+  $config_path = $module_handler->getModule('lupus_decoupled_menu')->getPath() . '/config/optional';
+  $source = new FileStorage($config_path);
+
+  $configs = [
+      'rest_menu_items.config',
+      'rest.resource.rest_menu_item',
+  ];
+  foreach ($configs as $config) {
+    \Drupal::service('config.storage')->write($config,
+        $source->read($config));
+  }
+}
