@@ -2,7 +2,7 @@
   "name": "drupal/lupus_decoupled",
   "description": "Ready-to-go Decoupled Drupal with Nuxt.js!",
   "type": "drupal-module",
-  "license": "GPL-1.0-or-later",
+  "license": "GPL-2.0-or-later",
   "keywords": [
     "Drupal",
     "Decoupled"
