@@ -5,6 +5,9 @@ services:
     arguments: ['%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%']
     tags:
       - { name: http_middleware, priority: 150 }
+  lupus_decoupled_ce_api.base_url_provider:
+    class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
+    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%' ]
 parameters:
   # Parameter that allows customizing api prefix per project.
   lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix: '/ce-api'
