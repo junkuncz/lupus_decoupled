@@ -53,7 +53,7 @@ class BackendApiRequest implements HttpKernelInterface {
     $length = strlen($this->apiPrefix);
     if (substr($uri, 0, $length) === $this->apiPrefix) {
       // Remove the API-prefix.
-      $new_uri = substr($uri, 4);
+      $new_uri = substr($uri, strlen($this->apiPrefix));
       // Apply new path by generating a new request.
       $new_request = $request->duplicate(
         NULL,
