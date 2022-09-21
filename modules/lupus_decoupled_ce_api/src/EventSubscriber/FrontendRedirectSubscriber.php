@@ -4,6 +4,7 @@ namespace Drupal\lupus_decoupled_ce_api\EventSubscriber;
 
 use drunomics\ServiceUtils\Core\Routing\CurrentRouteMatchTrait;
 use drunomics\ServiceUtils\Symfony\HttpFoundation\RequestStackTrait;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\lupus_decoupled_ce_api\BaseUrlProviderTrait;
@@ -19,6 +20,13 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   use BaseUrlProviderTrait;
   use CurrentRouteMatchTrait;
   use RequestStackTrait;
+
+  /**
+   * The module config object.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
 
   /**
    * An array of routes to redirect to the frontend.
@@ -37,10 +45,13 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   /**
    * FrontendRedirectSubscriber constructor.
    *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    * @param string[] $frontendRoutes
    *   The routes to redirect.
    */
-  public function __construct(array $frontendRoutes) {
+  public function __construct(ConfigFactoryInterface $config_factory, array $frontendRoutes) {
+    $this->config = $config_factory->get('lupus_decoupled_ce_api.settings');
     $this->frontendRoutes = $frontendRoutes;
   }
 
@@ -56,8 +67,8 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    if ($this->getBaseUrlProvider()->getFrontendBaseUrl() == NULL) {
-      // Exit if frontend_base_url is not set.
+    if ($this->getBaseUrlProvider()->getFrontendBaseUrl() == NULL || !$this->config->get('frontend_routes_redirect')) {
+      // Exit if frontend_base_url is not set or if frontend redirect is disabled.
       return;
     }
 

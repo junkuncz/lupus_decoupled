@@ -10,7 +10,7 @@ services:
     arguments: [ '@config.factory', '%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%' ]
   lupus_decoupled_ce_api.event_subscriber:
     class: Drupal\lupus_decoupled_ce_api\EventSubscriber\FrontendRedirectSubscriber
-    arguments: [ '%lupus_decoupled_ce_api.frontend_routes%' ]
+    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.frontend_routes%' ]
     tags:
       - { name: event_subscriber }
 parameters:
