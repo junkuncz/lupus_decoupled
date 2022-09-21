@@ -54,7 +54,7 @@ class BaseUrlProvider {
    */
   public function getFrontendBaseUrl(BubbleableMetadata $bubbleable_metadata = NULL) {
     if (isset($bubbleable_metadata)) {
-      $bubbleable_metadata->addCacheDependency($this->config);
+      $bubbleable_metadata->addCacheableDependency($this->config);
     }
     return $this->config->get('frontend_base_url');
   }
@@ -73,7 +73,7 @@ class BaseUrlProvider {
   public function getFrontendBaseUrlForEntity(EntityInterface $entity, BubbleableMetadata $bubbleable_metadata = NULL) {
     $base_url = $this->config->get('frontend_base_url');
     if (isset($bubbleable_metadata)) {
-      $bubbleable_metadata->addCacheDependency($this->config);
+      $bubbleable_metadata->addCacheableDependency($this->config);
     }
     // It's the same for all entities now but can be overwritten
     // in case multiple frontends are supported.

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * General functions and hook implementations.
+ */
+
+/**
+ * Implements hook_trusted_redirect_hosts_alter().
+ */
+function lupus_decoupled_ce_api_trusted_redirect_hosts_alter(array &$trusted_hosts) {
+  $a =1;
+
+  $frontend_base_url = \Drupal::service('lupus_decoupled_ce_api.base_url_provider')
+    ->getFrontendBaseUrl();
+  $trusted_hosts[] = parse_url($frontend_base_url, PHP_URL_HOST);
+}
