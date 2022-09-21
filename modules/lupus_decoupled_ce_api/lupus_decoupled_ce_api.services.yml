@@ -8,6 +8,14 @@ services:
   lupus_decoupled_ce_api.base_url_provider:
     class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
     arguments: [ '@config.factory', '%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%' ]
+  lupus_decoupled_ce_api.event_subscriber:
+    class: Drupal\lupus_decoupled_ce_api\EventSubscriber\FrontendRedirectSubscriber
+    arguments: [ '%lupus_decoupled_ce_api.frontend_routes%' ]
+    tags:
+      - { name: event_subscriber }
 parameters:
   # Parameter that allows customizing api prefix per project.
   lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix: '/ce-api'
+  # Parameter that allows customizing frontend routes per project.
+  lupus_decoupled_ce_api.frontend_routes:
+    - entity.node.canonical
