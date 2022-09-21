@@ -74,13 +74,12 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
 
     if (in_array($this->getCurrentRouteMatch()->getRouteName(), $this->frontendRoutes)) {
       $route_match = $this->getCurrentRouteMatch();
-      // Handle canonical entity paths properly so any custom frontend paths
-      // apply correctly.
+      // For entity routes, get entity-specific frontend base URLs.
       if (preg_match('/entity\.[a-z]+\.canonical/', $route_match->getRouteName())) {
         $parameters = $route_match->getParameters()->all();
         $entity = reset($parameters);
         if ($entity && $entity instanceof EntityInterface) {
-          $redirect_url = $entity->toUrl('canonical', ['absolute' => TRUE])->toString();
+          $redirect_url = $this->getBaseUrlProvider()->getFrontendBaseUrlForEntity($entity) . $this->getCurrentRequest()->getRequestUri();
         }
       }
       if (!isset($redirect_url)) {
