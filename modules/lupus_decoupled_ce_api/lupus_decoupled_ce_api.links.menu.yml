@@ -1,0 +1,6 @@
+lupus_decoupled_ce_api.settings_form:
+  title: 'Lupus Decoupled Drupal'
+  route_name: lupus_decoupled_ce_api.settings_form
+  description: 'Main settings'
+  parent: system.admin_config_system
+  weight: 99

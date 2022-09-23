@@ -1,0 +1,9 @@
+lupus_decoupled_ce_api.settings_form:
+  path: '/admin/config/system/lupus-decoupled/settings'
+  defaults:
+    _form: '\Drupal\lupus_decoupled_ce_api\Form\LupusDecoupledSettingsForm'
+    _title: 'Lupus Decoupled Drupal Settings'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE

@@ -1,0 +1,6 @@
+lupus_decoupled_ce_api.settings_form:
+  title: 'Settings'
+  route_name: lupus_decoupled_ce_api.settings_form
+  description: 'Main settings'
+  base_route: lupus_decoupled_ce_api.settings_form
+  weight: -1
