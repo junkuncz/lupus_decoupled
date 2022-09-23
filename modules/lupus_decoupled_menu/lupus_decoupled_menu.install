@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Config\FileStorage;
+use Drupal\user\Entity\Role;
 
 /**
  * Add config for rest_menu_items.
@@ -25,4 +26,12 @@ function lupus_decoupled_menu_install() {
     \Drupal::service('config.storage')->write($config,
         $source->read($config));
   }
+
+  // Grant permissions for accessing the API.
+  $role = Role::load('anonymous');
+  $role->grantPermission('restful get rest_menu_item');
+  $role->save();
+  $role = Role::load('authenticated');
+  $role->grantPermission('restful get rest_menu_item');
+  $role->save();
 }
