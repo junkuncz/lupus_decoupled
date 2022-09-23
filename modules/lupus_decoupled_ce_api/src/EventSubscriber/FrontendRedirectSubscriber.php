@@ -4,12 +4,14 @@ namespace Drupal\lupus_decoupled_ce_api\EventSubscriber;
 
 use drunomics\ServiceUtils\Core\Routing\CurrentRouteMatchTrait;
 use drunomics\ServiceUtils\Symfony\HttpFoundation\RequestStackTrait;
+use Drupal\Core\Cache\CacheableResponseInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\lupus_decoupled_ce_api\BaseUrlProviderTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -91,11 +93,25 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   }
 
   /**
+   * Handles the response.
+   *
+   * @param \Symfony\Component\HttpKernel\Event\ResponseEvent $event
+   *   The event to process.
+   */
+  public function onResponse(ResponseEvent $event) {
+    $response = $event->getResponse();
+    if ($response instanceof CacheableResponseInterface) {
+      $response->addCacheableDependency($this->config);
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     return [
       KernelEvents::REQUEST => ['onKernelRequest', 0],
+      KernelEvents::RESPONSE => ['onResponse', 5],
     ];
   }
 
