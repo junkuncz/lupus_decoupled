@@ -4,3 +4,5 @@ type: module
 core_version_requirement: ^9 || ^10
 dependencies:
   - lupus_decoupled:lupus_decoupled_ce_api
+  - lupus_decoupled:lupus_decoupled_cors
+  - lupus_decoupled:lupus_decoupled_menu

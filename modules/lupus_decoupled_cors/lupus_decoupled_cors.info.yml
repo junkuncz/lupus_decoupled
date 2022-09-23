@@ -1,0 +1,8 @@
+name: 'lupus.digital CORS handling'
+description: 'Configures CORS to allow the frontend to use Drupal APIs from within the browser'
+type: module
+
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:lupus_decoupled_ce_api
+package: 'lupus.digital'
