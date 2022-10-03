@@ -55,6 +55,22 @@ class LupusDecoupledApiResponseTest extends BrowserTestBase {
   }
 
   /**
+   * Tests if created node is accessible.
+   */
+  public function testExistingPageResponse() {
+    $this->drupalGet('node/' . $this->node->id());
+    $this->assertSession()->statusCodeEquals(200);
+  }
+
+  /**
+   * Tests un-existing page access.
+   */
+  public function test404Page() {
+    $this->drupalGet('i-dont-exist');
+    $this->assertSession()->statusCodeEquals(404);
+  }
+
+  /**
    * Tests if created node is accessible at api endpoint.
    */
   public function testExistingPageApiResponse() {
