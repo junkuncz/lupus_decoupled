@@ -29,7 +29,10 @@ class LupusDecoupledApiResponseTest extends BrowserTestBase {
    */
   protected static $modules = [
     'node',
+    'custom_elements',
+    'lupus_ce_renderer',
     'lupus_decoupled',
+    'lupus_decoupled_ce_api',
   ];
 
   /**
