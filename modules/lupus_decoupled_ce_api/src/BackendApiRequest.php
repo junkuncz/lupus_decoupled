@@ -66,6 +66,8 @@ class BackendApiRequest implements HttpKernelInterface {
         ])
       );
       $new_request->attributes->set('lupus_ce_renderer', TRUE);
+      // Merge headers to not lose custom headers set in the object.
+      $new_request->headers->add($request->headers->all() + $new_request->headers->all());
       $new_request->headers->set('X-Original-Path', $uri);
       return $this->httpKernel->handle($new_request, $type, $catch);
     }
