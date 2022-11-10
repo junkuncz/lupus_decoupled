@@ -35,7 +35,7 @@ class BackendApiRequest implements HttpKernelInterface {
    * @param string $apiPrefix
    *   The api path prefix.
    */
-  public function __construct(HttpKernelInterface $httpKernel, $apiPrefix) {
+  public function __construct(HttpKernelInterface $httpKernel, string $apiPrefix) {
     $this->httpKernel = $httpKernel;
     $this->apiPrefix = $apiPrefix;
   }
@@ -50,10 +50,18 @@ class BackendApiRequest implements HttpKernelInterface {
     // to the non /ce-api path equivalent but with the custom elements formatter
     // enabled.
     // (e.g. /ce-api/xyz -> /xyz)
-    $length = strlen($this->apiPrefix);
-    if (substr($uri, 0, $length) === $this->apiPrefix) {
+    // Check if on homepage(compare uri with apiPrefix without trailing slash)
+    // in order to add the trailing slash to the uri.
+    if ($uri == $this->apiPrefix) {
+      $uri = $uri . '/';
+    }
+    // Add trailing slash to apiPrefix so that requests don't work
+    // without a "/" separator.
+    $apiPrefixSlash = $this->apiPrefix . '/';
+    $length = strlen($apiPrefixSlash);
+    if (substr($uri, 0, $length) === $apiPrefixSlash) {
       // Remove the API-prefix.
-      $new_uri = substr($uri, strlen($this->apiPrefix));
+      $new_uri = substr($uri, strlen($apiPrefixSlash));
       // Apply new path by generating a new request.
       $new_request = $request->duplicate(
         NULL,
