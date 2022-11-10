@@ -58,7 +58,7 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Redirects entity.node.canonical requests to the frontend base_url.
+   * Redirects frontend routes to the frontend base URL.
    *
    * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   The request event.
@@ -81,9 +81,13 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
         $parameters = $route_match->getParameters()->all();
         $entity = reset($parameters);
         if ($entity && $entity instanceof EntityInterface) {
-          $redirect_url = $this->getBaseUrlProvider()->getFrontendBaseUrlForEntity($entity) . $this->getCurrentRequest()->getRequestUri();
+          $options['query'] = $this->requestStack->getCurrentRequest()->query->all();
+          $options['absolute'] = TRUE;
+          $redirect_url = $entity->toUrl('canonical', $options)->toString();
         }
       }
+      // For other routes just forward to the frontend by keeping the current
+      // request URL.
       if (!isset($redirect_url)) {
         $redirect_url = $this->getBaseUrlProvider()->getFrontendBaseUrl() . $this->getCurrentRequest()->getRequestUri();
       }
