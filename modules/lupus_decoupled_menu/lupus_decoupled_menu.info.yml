@@ -3,7 +3,7 @@ description: 'Provides menu API endpoints for Drupal menus'
 type: module
 package: Lupus Decoupled Drupal
 
-core_version_requirement: 8.x || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - custom_elements:custom_elements
   - lupus_decoupled:lupus_decoupled_ce_api

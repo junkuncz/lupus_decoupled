@@ -2,6 +2,7 @@
 
 namespace Drupal\lupus_decoupled_ce_api;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -43,7 +44,7 @@ class BackendApiRequest implements HttpKernelInterface {
   /**
    * {@inheritdoc}
    */
-  public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
+  public function handle(Request $request, $type = self::MAIN_REQUEST, $catch = TRUE): Response {
     $uri = $request->server->get('REQUEST_URI');
 
     // If this request is against /ce-api then internally rewrite is as a request

@@ -3,6 +3,6 @@ description: 'Provides the layout builder base setup.'
 type: module
 package: Lupus Decoupled Drupal
 
-core_version_requirement: 8.x || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - drupal:layout_builder

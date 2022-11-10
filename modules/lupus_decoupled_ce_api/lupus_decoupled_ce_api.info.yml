@@ -3,7 +3,7 @@ description: 'Provides custom elements API at /ce-api'
 type: module
 package: Lupus Decoupled Drupal
 
-core_version_requirement: 8.x || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - trusted_redirect:trusted_redirect
   - lupus_ce_renderer:lupus_ce_renderer
