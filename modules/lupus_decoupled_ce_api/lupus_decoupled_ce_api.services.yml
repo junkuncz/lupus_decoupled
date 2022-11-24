@@ -2,12 +2,12 @@ services:
   lupus_decoupled_ce_api.middleware.backendapi:
     class: Drupal\lupus_decoupled_ce_api\BackendApiRequest
     # Note that kernel argument is automatically added for the middleware.
-    arguments: ['%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%']
+    arguments: ['%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.content_format%']
     tags:
       - { name: http_middleware, priority: 150 }
   lupus_decoupled_ce_api.base_url_provider:
     class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
-    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix%' ]
+    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.api_prefix%' ]
   lupus_decoupled_ce_api.event_subscriber:
     class: Drupal\lupus_decoupled_ce_api\EventSubscriber\FrontendRedirectSubscriber
     arguments: [ '@config.factory', '%lupus_decoupled_ce_api.frontend_routes%' ]
@@ -23,11 +23,14 @@ services:
     tags:
       - { name: path_processor_outbound, priority: 500 }
 parameters:
-  # Parameter that allows customizing api prefix per project.
-  lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix: '/ce-api'
-  # Parameter that allows customizing frontend routes per project.
+  # Allows customizing api prefix per project.
+  lupus_decoupled_ce_api.api_prefix: '/ce-api'
+  # Sets the content_format of lupus_ce_renderer to json. Also supports 'markup'
+  lupus_decoupled_ce_api.content_format: 'json'
+  # Allows customizing frontend routes per project.
   lupus_decoupled_ce_api.frontend_routes:
     - entity.node.canonical
-  # Todo: Make frontend path processing work from the routes also.
+  # Allows customizing frontend paths.
+  # Todo: Make frontend path processing take frontend routes into account.
   lupus_decoupled_ce_api.frontend_paths:
     - '/node/{node}'

@@ -29,16 +29,26 @@ class BackendApiRequest implements HttpKernelInterface {
   protected $apiPrefix;
 
   /**
+   * The CE content format.
+   *
+   * @var string
+   */
+  protected $contentFormat;
+
+  /**
    * Create a new StackOptionsRequest instance.
    *
    * @param \Symfony\Component\HttpKernel\HttpKernelInterface $httpKernel
    *   Http Kernel.
    * @param string $apiPrefix
    *   The api path prefix.
+   * @param string $contentFormat
+   *   (optional) The content format to apply. Defaults to 'json'.
    */
-  public function __construct(HttpKernelInterface $httpKernel, string $apiPrefix) {
+  public function __construct(HttpKernelInterface $httpKernel, string $apiPrefix, string $contentFormat = 'json') {
     $this->httpKernel = $httpKernel;
     $this->apiPrefix = $apiPrefix;
+    $this->contentFormat = $contentFormat;
   }
 
   /**
@@ -75,6 +85,7 @@ class BackendApiRequest implements HttpKernelInterface {
         ])
       );
       $new_request->attributes->set('lupus_ce_renderer', TRUE);
+      $new_request->attributes->set('lupus_ce_renderer.content_format', $this->contentFormat);
       // Merge headers to not lose custom headers set in the object.
       $new_request->headers->add($request->headers->all() + $new_request->headers->all());
       $new_request->headers->set('X-Original-Path', $uri);
