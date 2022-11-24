@@ -18,6 +18,10 @@ services:
     arguments: [ '%lupus_decoupled_ce_api.frontend_paths%', '@path_alias.manager' ]
     tags:
       - { name: path_processor_outbound, priority: 310 }
+  lupus_decoupled_ce_api.preview_path_processor:
+    class: Drupal\lupus_decoupled_ce_api\PathProcessor\LupusPreviewPathProcessor
+    tags:
+      - { name: path_processor_outbound, priority: 500 }
 parameters:
   # Parameter that allows customizing api prefix per project.
   lupus_decoupled_ce_api.lupus_decoupled_ce_api_prefix: '/ce-api'
