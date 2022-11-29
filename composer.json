@@ -10,8 +10,8 @@
   "homepage": "https://www.drupal.org/project/lupus_decoupled",
   "require": {
     "drunomics/service-utils": "*",
-    "drupal/custom_elements": "^2.2",
-    "drupal/lupus_ce_renderer": "^2.2.0",
+    "drupal/custom_elements": "^2.2 || 3.x-dev",
+    "drupal/lupus_ce_renderer": "^2",
     "drupal/rest_menu_items": "^3.0.3",
     "drupal/trusted_redirect": "^1.11.0"
   }
