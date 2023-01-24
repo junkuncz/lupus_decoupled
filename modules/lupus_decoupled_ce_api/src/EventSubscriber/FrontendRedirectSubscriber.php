@@ -89,7 +89,11 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
       // For other routes just forward to the frontend by keeping the current
       // request URL.
       if (!isset($redirect_url)) {
-        $redirect_url = $this->getBaseUrlProvider()->getFrontendBaseUrl() . $this->getCurrentRequest()->getRequestUri();
+        if ($frontend_base_url = $this->getBaseUrlProvider()->getFrontendBaseUrl()) {
+          // For sites with more than one frontend url there this method has to
+          // be overridden and a mechanism to decide frontend url should be put in place.
+          $redirect_url = $frontend_base_url . $this->getCurrentRequest()->getRequestUri();
+        }
       }
       $event->setResponse(new TrustedRedirectResponse($redirect_url));
       $event->stopPropagation();

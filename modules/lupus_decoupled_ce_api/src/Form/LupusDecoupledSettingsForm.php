@@ -36,6 +36,11 @@ class LupusDecoupledSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::CONFIG_NAME);
+    if ($frontend_base_url = getenv('DRUPAL_FRONTEND_BASE_URL')) {
+      $this->messenger()->addWarning('Environment variable DRUPAL_FRONTEND_BASE_URL is set to @frontend_base_url. It will override Frontend Base URL configuration.', [
+        '@frontend_base_url' => $frontend_base_url,
+      ]);
+    }
 
     $form['frontend_base_url'] = [
       '#type' => 'url',
@@ -43,7 +48,7 @@ class LupusDecoupledSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('frontend_base_url'),
       '#pattern' => 'https?://.*',
       '#placeholder' => 'https://your-frontend-site.com',
-      '#description' => $this->t('The base URL of your frontend site.'),
+      '#description' => $this->t('The base URL of your frontend site. This value can be overridden with DRUPAL_FRONTEND_BASE_URL environment variable.'),
     ];
 
     $form['frontend_routes_redirect'] = [
@@ -61,7 +66,6 @@ class LupusDecoupledSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-
     $config = $this->config(static::CONFIG_NAME);
     $config->set('frontend_base_url', $form_state->getValue('frontend_base_url'));
     $config->set('frontend_routes_redirect', $form_state->getValue('frontend_routes_redirect'));

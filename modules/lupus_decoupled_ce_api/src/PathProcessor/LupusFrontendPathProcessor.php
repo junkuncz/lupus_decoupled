@@ -6,7 +6,6 @@ use drunomics\ServiceUtils\Core\Config\ConfigFactoryTrait;
 use drunomics\ServiceUtils\Core\Routing\CurrentRouteMatchTrait;
 use Drupal\Core\PathProcessor\OutboundPathProcessorInterface;
 use Drupal\Core\Render\BubbleableMetadata;
-use Drupal\ldp_ce_api\LdpBaseUrlProviderTrait;
 use Drupal\lupus_decoupled_ce_api\BaseUrlProviderTrait;
 use Drupal\path_alias\AliasManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

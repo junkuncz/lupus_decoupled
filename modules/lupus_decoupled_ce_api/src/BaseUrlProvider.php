@@ -10,6 +10,11 @@ use Drupal\Core\Url;
 
 /**
  * Provides base URLs.
+ *
+ * Main frontend URL is set in Lupus Decoupled Settings but can be overridden
+ * with DRUPAL_FRONTEND_BASE_URL environment variable. Additional frontend urls
+ * (used for CORS configuration can be added with
+ * lupus_decoupled_ce_api.frontend_base_urls container parameter).
  */
 class BaseUrlProvider {
 
@@ -31,20 +36,36 @@ class BaseUrlProvider {
   protected $apiPrefix;
 
   /**
+   * An array of frontend base urls.
+   *
+   * Used for setting cors and csp headers.
+   *
+   * @var string[]
+   */
+  protected $frontendBaseUrls;
+
+  /**
    * Constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
    * @param string $apiPrefix
    *   The api path prefix.
+   * @param string[] $frontendBaseUrls
+   *   The frontend base urls.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, string $apiPrefix) {
+  public function __construct(ConfigFactoryInterface $config_factory, string $apiPrefix, array $frontendBaseUrls) {
     $this->config = $config_factory->get('lupus_decoupled_ce_api.settings');
     $this->apiPrefix = $apiPrefix;
+    $this->frontendBaseUrls = $frontendBaseUrls;
   }
 
   /**
    * Provides frontend base URL.
+   *
+   * For sites with more than one frontend site this method has to be
+   * overridden with a decision-making mechanism to pick the right frontend
+   * url.
    *
    * @param \Drupal\Core\Render\BubbleableMetadata|null $bubbleable_metadata
    *   (optional) If given, an object to attach cache metadata to.
@@ -53,10 +74,32 @@ class BaseUrlProvider {
    *   Frontend base URL.
    */
   public function getFrontendBaseUrl(BubbleableMetadata $bubbleable_metadata = NULL) {
+    if ($frontend_base_url = getenv('DRUPAL_FRONTEND_BASE_URL')) {
+      return $frontend_base_url;
+    }
     if (isset($bubbleable_metadata)) {
       $bubbleable_metadata->addCacheableDependency($this->config);
     }
-    return $this->config->get('frontend_base_url');
+    return $this->config->get('frontend_base_url') ?? NULL;
+  }
+
+  /**
+   * Provides the list of all frontend urls.
+   *
+   * This parameter can be used to set cors or csp headers.
+   *
+   * @param \Drupal\Core\Render\BubbleableMetadata|null $bubbleable_metadata
+   *   (optional) If given, an object to attach cache metadata to.
+   *
+   * @return string[]
+   *   Array of frontend base urls.
+   */
+  public function getAllFrontendBaseUrls(BubbleableMetadata $bubbleable_metadata = NULL) {
+    $frontend_base_urls = [$this->getFrontendBaseUrl($bubbleable_metadata)];
+    if (!empty($this->frontendBaseUrls)) {
+      $frontend_base_urls = array_unique(array_merge($frontend_base_urls, $this->frontendBaseUrls));
+    }
+    return $frontend_base_urls;
   }
 
   /**
@@ -71,7 +114,7 @@ class BaseUrlProvider {
    *   Frontend base URL.
    */
   public function getFrontendBaseUrlForEntity(EntityInterface $entity, BubbleableMetadata $bubbleable_metadata = NULL) {
-    $base_url = $this->config->get('frontend_base_url');
+    $base_url = $this->getFrontendBaseUrl($bubbleable_metadata);
     if (isset($bubbleable_metadata)) {
       $bubbleable_metadata->addCacheableDependency($this->config);
     }

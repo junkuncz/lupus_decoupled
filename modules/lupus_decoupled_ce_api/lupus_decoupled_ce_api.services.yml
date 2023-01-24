@@ -7,7 +7,7 @@ services:
       - { name: http_middleware, priority: 150 }
   lupus_decoupled_ce_api.base_url_provider:
     class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
-    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.api_prefix%' ]
+    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.frontend_base_urls%' ]
   lupus_decoupled_ce_api.event_subscriber:
     class: Drupal\lupus_decoupled_ce_api\EventSubscriber\FrontendRedirectSubscriber
     arguments: [ '@config.factory', '%lupus_decoupled_ce_api.frontend_routes%' ]
@@ -34,3 +34,5 @@ parameters:
   # Todo: Make frontend path processing take frontend routes into account.
   lupus_decoupled_ce_api.frontend_paths:
     - '/node/{node}'
+  # For one or more frontend sites that connect to the same backend.
+  lupus_decoupled_ce_api.frontend_base_urls: null

@@ -31,8 +31,8 @@ class LupusDecoupledCorsServiceProvider extends ServiceProviderBase implements S
     $new_config['allowedHeaders'][] = 'pragma';
     $new_config['allowedMethods'][] = 'GET';
     $new_config['allowedMethods'][] = 'POST';
-    if ($base_url = $this->getFrontendBaseUrl()) {
-      $new_config['allowedOrigins'][] = $base_url;
+    if ($frontend_base_urls = $container->getParameter('lupus_decoupled_ce_api.frontend_base_urls')) {
+      $new_config['allowedOrigins'] = array_merge($new_config['allowedOrigins'] ?? [], $frontend_base_urls);
     }
 
     // Add support for localhost access when the app is in development mode.
@@ -47,27 +47,6 @@ class LupusDecoupledCorsServiceProvider extends ServiceProviderBase implements S
       $options['cookie_samesite'] = 'None';
       $container->setParameter('session.storage.options', $options);
     }
-  }
-
-  /**
-   * Gets the frontend base URL.
-   *
-   * @return string|null
-   */
-  protected function getFrontendBaseUrl() : ?string {
-    // Support reading frontend base URL from env-var since config-overrides
-    // are not working here.
-    // @todo Improve e.g. by reading config-overrides from settings.php instead.
-    if ($base_url = getenv('FRONTEND_BASE_URL')) {
-      return $base_url;
-    }
-
-    // Read config via the boostrap config factory to avoid dependency on the
-    // container. This misses out config-overrides here, but that seems to be an
-    // acceptable trade-off.
-    $config_factory = BootstrapConfigStorageFactory::get();
-    $settings = $config_factory->read('lupus_decoupled_ce_api.settings');
-    return $settings['frontend_base_url'] ?? NULL;
   }
 
 }

@@ -1,2 +1,2 @@
-frontend_base_url: null
+frontend_base_url: [ ]
 frontend_routes_redirect: true
