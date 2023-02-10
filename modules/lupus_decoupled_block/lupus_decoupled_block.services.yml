@@ -1,0 +1,9 @@
+services:
+  lupus_decoupled_block.event_subscriber:
+    class: Drupal\lupus_decoupled_block\EventSubscriber\LupusDecoupledBlockSubscriber
+    arguments: ['@lupus_decoupled_block.renderer']
+    tags:
+      - { name: event_subscriber }
+  lupus_decoupled_block.renderer:
+    class: Drupal\lupus_decoupled_block\LupusDecoupledBlockRenderer
+    arguments: ['@block.repository']
