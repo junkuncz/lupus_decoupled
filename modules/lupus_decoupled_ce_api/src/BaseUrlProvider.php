@@ -73,7 +73,7 @@ class BaseUrlProvider {
    * @return string|null
    *   Frontend base URL.
    */
-  public function getFrontendBaseUrl(BubbleableMetadata $bubbleable_metadata = NULL) {
+  public function getFrontendBaseUrl(BubbleableMetadata $bubbleable_metadata = NULL) : string|null {
     if ($frontend_base_url = getenv('DRUPAL_FRONTEND_BASE_URL')) {
       return $frontend_base_url;
     }
