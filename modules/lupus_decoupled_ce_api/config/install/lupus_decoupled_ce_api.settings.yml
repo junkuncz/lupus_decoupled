@@ -1,2 +1,3 @@
 frontend_base_url:
 frontend_routes_redirect: true
+absolute_file_urls: true

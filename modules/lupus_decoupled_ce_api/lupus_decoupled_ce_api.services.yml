@@ -5,6 +5,10 @@ services:
     arguments: ['%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.content_format%']
     tags:
       - { name: http_middleware, priority: 150 }
+  lupus_decoupled_ce_api.settings:
+    class: Drupal\Core\Config\ImmutableConfig
+    factory: config.factory:get
+    arguments: [ 'lupus_decoupled_ce_api.settings' ]
   lupus_decoupled_ce_api.base_url_provider:
     class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
     arguments: [ '@config.factory', '%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.frontend_base_urls%' ]
@@ -22,6 +26,15 @@ services:
     class: Drupal\lupus_decoupled_ce_api\PathProcessor\LupusPreviewPathProcessor
     tags:
       - { name: path_processor_outbound, priority: 500 }
+  lupus_decoupled_ce_api.file_url_generator:
+    class: Drupal\lupus_decoupled_ce_api\File\FileUrlGenerator
+    decorates: file_url_generator
+    arguments:
+      - '@lupus_decoupled_ce_api.file_url_generator.inner'
+      - '@lupus_decoupled_ce_api.settings'
+      - '@request_stack'
+      - '%lupus_decoupled_ce_api.api_prefix%'
+
 parameters:
   # Allows customizing api prefix per project.
   lupus_decoupled_ce_api.api_prefix: '/ce-api'

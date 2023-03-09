@@ -58,6 +58,13 @@ class LupusDecoupledSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Opens frontend routes in the frontend by redirecting to the frontend.'),
     ];
 
+    $form['absolute_file_urls'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Generate custom-elements API responses with absolute file URLs.'),
+      '#default_value' => $config->get('absolute_file_urls') ?? TRUE,
+      '#description' => $this->t('Serving files and images using absolute URLs keeps the file URLs working in a decoupled frontend. When disabled, care must be taken to resolve URLs otherwise.'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -69,6 +76,7 @@ class LupusDecoupledSettingsForm extends ConfigFormBase {
     $config = $this->config(static::CONFIG_NAME);
     $config->set('frontend_base_url', $form_state->getValue('frontend_base_url'));
     $config->set('frontend_routes_redirect', $form_state->getValue('frontend_routes_redirect'));
+    $config->set('absolute_file_urls', $form_state->getValue('absolute_file_urls'));
     $config->save();
   }
 
