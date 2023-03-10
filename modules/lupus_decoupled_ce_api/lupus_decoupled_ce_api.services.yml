@@ -43,6 +43,8 @@ parameters:
   # Allows customizing frontend routes per project.
   lupus_decoupled_ce_api.frontend_routes:
     - entity.node.canonical
+    - entity.node.preview
+    - entity.node.revision
   # Allows customizing frontend paths.
   # Todo: Make frontend path processing take frontend routes into account.
   lupus_decoupled_ce_api.frontend_paths:
