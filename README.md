@@ -22,7 +22,7 @@ of the respective frontend framework, i.e. see [Nuxt 3 deployment documentation]
 
 * Visit `/admin/config/system/lupus-decoupled/settings` and provide the URL of your frontend.
 
-## development
+## Development
 
 It's recommended to use the provide [project template](https://github.com/drunomics/lupus-decoupled-project) for development.
 
