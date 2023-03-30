@@ -5,6 +5,7 @@
  * General functions and hook implementations.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -46,3 +47,30 @@ function _lupus_decoupled_ce_api_form_submit_add_auth(array &$form, FormStateInt
     $form_state->setRedirectUrl($url);
   }
 }
+
+/**
+ * Implements hook_entity_operation().
+ */
+function lupus_decoupled_ce_api_entity_operation(EntityInterface $entity) {
+  $operations = [];
+  $entityType = $entity->getEntityType();
+  // Only for entity node.
+  if ($entityType->id() === 'node' && \Drupal::currentUser()->hasPermission('use api operation link')) {
+    // Build the url.
+    $apiBaseUrl = \Drupal::service('lupus_decoupled_ce_api.base_url_provider')
+      ->getApiBaseUrl();
+    $entityApiUrl = $entity->toUrl()->setOptions([
+      'base_url' => $apiBaseUrl,
+      'language' => $entity->language(),
+      'query' => ['_content_format' => 'json'],
+    ]);
+
+    $operations['view-api-output'] = [
+      'title' => t('View API Output'),
+      'weight' => 50,
+      'url' => $entityApiUrl,
+    ];
+  }
+  return $operations;
+}
+
