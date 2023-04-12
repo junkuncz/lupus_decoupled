@@ -15,7 +15,7 @@ class ViewsRouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
-    // Mark the provided route to render into custom_elements
+    // Mark the provided route to render into custom_elements.
     foreach ($collection as $name => $route) {
       if (mb_substr($name, 0, 5) === 'view.') {
         $ce_route_display_id = $route->getOption('_view_display_plugin_id');

@@ -19,8 +19,8 @@ function lupus_decoupled_menu_install() {
   $source = new FileStorage($config_path);
 
   $configs = [
-      'rest_menu_items.config',
-      'rest.resource.rest_menu_item',
+    'rest_menu_items.config',
+    'rest.resource.rest_menu_item',
   ];
   foreach ($configs as $config) {
     \Drupal::service('config.storage')->write($config,

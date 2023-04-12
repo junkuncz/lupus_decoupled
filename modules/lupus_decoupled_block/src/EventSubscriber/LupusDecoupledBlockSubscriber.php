@@ -2,10 +2,9 @@
 
 namespace Drupal\lupus_decoupled_block\EventSubscriber;
 
-use Drupal\block\BlockRepositoryInterface;
+use Drupal\lupus_decoupled_block\LupusDecoupledBlockRenderer;
 use Drupal\lupus_ce_renderer\Cache\CustomElementsJsonResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -21,22 +20,23 @@ class LupusDecoupledBlockSubscriber implements EventSubscriberInterface {
    */
   protected $renderer;
 
-
   /**
+   * Constructor function.
+   *
    * @param \Drupal\lupus_decoupled_block\LupusDecoupledBlockRenderer $renderer
    *   Renderer.
    */
-  public function __construct(\Drupal\lupus_decoupled_block\LupusDecoupledBlockRenderer $renderer) {
+  public function __construct(LupusDecoupledBlockRenderer $renderer) {
     $this->renderer = $renderer;
   }
 
   /**
    * Kernel response event handler.
    *
-   * @see \Drupal\lupus_ce_renderer\CustomElementsRenderer::getDynamicContent()
-   *
    * @param \Symfony\Component\HttpKernel\Event\ResponseEvent $event
    *   Response event.
+   *
+   * @see \Drupal\lupus_ce_renderer\CustomElementsRenderer::getDynamicContent()
    */
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();

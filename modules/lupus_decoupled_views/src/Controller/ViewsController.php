@@ -6,7 +6,6 @@ use drunomics\ServiceUtils\Core\Render\RendererTrait;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\custom_elements\CustomElement;
-use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 
 /**
@@ -20,13 +19,14 @@ class ViewsController {
    * Renders Views pages into custom elements.
    *
    * @param string $view_id
-   *   The ID of the view
+   *   The ID of the view.
    * @param string $display_id
    *   The ID of the display.
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The route match object.
    *
    * @return \Drupal\custom_elements\CustomElement
+   *   Return Custom element object.
    */
   public function viewsView(string $view_id, string $display_id, RouteMatchInterface $route_match) {
     $args = [];

@@ -70,7 +70,8 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
     }
 
     if ($this->getBaseUrlProvider()->getFrontendBaseUrl() == NULL || !$this->config->get('frontend_routes_redirect')) {
-      // Exit if frontend_base_url is not set or if frontend redirect is disabled.
+      // Exit if frontend_base_url is not set
+      // or if frontend redirect is disabled.
       return;
     }
 
@@ -91,7 +92,8 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
       if (!isset($redirect_url)) {
         if ($frontend_base_url = $this->getBaseUrlProvider()->getFrontendBaseUrl()) {
           // For sites with more than one frontend url there this method has to
-          // be overridden and a mechanism to decide frontend url should be put in place.
+          // be overridden and a mechanism to decide frontend url
+          // should be put in place.
           $redirect_url = $frontend_base_url . $this->getCurrentRequest()->getRequestUri();
         }
       }

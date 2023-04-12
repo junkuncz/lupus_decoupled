@@ -57,7 +57,8 @@ class BackendApiRequest implements HttpKernelInterface {
   public function handle(Request $request, $type = self::MAIN_REQUEST, $catch = TRUE): Response {
     $uri = $request->server->get('REQUEST_URI');
 
-    // If this request is against /ce-api then internally rewrite is as a request
+    // If this request is against /ce-api then internally
+    // rewrite is as a request
     // to the non /ce-api path equivalent but with the custom elements formatter
     // enabled.
     // (e.g. /ce-api/xyz -> /xyz)

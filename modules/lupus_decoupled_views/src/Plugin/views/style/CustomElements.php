@@ -44,7 +44,8 @@ class CustomElements extends StylePluginBase {
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
 
-    // The Serializer parent offers JSON (default) and XML. We only want to make use of JSON so hide the option.
+    // The Serializer parent offers JSON (default) and XML.
+    // We only want to make use of JSON so hide the option.
     unset($form['formats']);
   }
 
@@ -104,4 +105,5 @@ class CustomElements extends StylePluginBase {
 
     return $pagination;
   }
+
 }
