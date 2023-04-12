@@ -1,0 +1,5 @@
+services:
+  lupus_decoupled_views.views_route_subscriber:
+    class: Drupal\lupus_decoupled_views\EventSubscriber\ViewsRouteSubscriber
+    tags:
+      - { name: event_subscriber }
