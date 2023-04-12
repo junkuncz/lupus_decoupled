@@ -66,6 +66,12 @@ class BackendApiRequest implements HttpKernelInterface {
     if ($uri == $this->apiPrefix) {
       $uri = $uri . '/';
     }
+    // If homepage without trailing slash, but with query set, it won't match
+    // above so check here and insert slash in between. 
+    if (strtok($uri, '?') == $this->apiPrefix) {
+      $query = $request->server->get('QUERY_STRING');
+      $uri = str_replace('?' . $query, '/?' . $query, $uri);
+    }
     // Add trailing slash to apiPrefix so that requests don't work
     // without a "/" separator.
     $apiPrefixSlash = $this->apiPrefix . '/';
