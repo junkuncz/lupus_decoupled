@@ -4,6 +4,7 @@ namespace Drupal\lupus_decoupled_views\Plugin\views\style;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\custom_elements\CustomElement;
+use Drupal\custom_elements\CustomElementGeneratorTrait;
 use Drupal\views\Plugin\views\style\StylePluginBase;
 
 /**
@@ -18,6 +19,8 @@ use Drupal\views\Plugin\views\style\StylePluginBase;
  * )
  */
 class CustomElements extends StylePluginBase {
+
+  use CustomElementGeneratorTrait;
 
   /**
    * Pager None class.
@@ -54,6 +57,8 @@ class CustomElements extends StylePluginBase {
    */
   public function render() {
     $result = ['rows' => []];
+    $row_plugin = $this->view->rowPlugin->getPluginId();
+    $entity_view_plugin = str_starts_with($row_plugin, 'entity:');
 
     // If the Data Entity row plugin is used, this will be an array of entities
     // which will pass through Serializer to one of the registered Normalizers,
@@ -61,8 +66,15 @@ class CustomElements extends StylePluginBase {
     // is used, $rows will not contain objects and will pass directly to the
     // Encoder.
     foreach ($this->view->result as $row) {
-      $build = $this->view->rowPlugin->render($row);
-      $custom_element = CustomElement::createFromRenderArray($build);
+      if ($entity_view_plugin) {
+        $custom_element = $this->getCustomElementGenerator()->generate($row->_entity, $this->view->rowPlugin->options['view_mode']);
+      }
+      else {
+        $custom_element = new CustomElement();
+        foreach ($this->view->field as $name => $value) {
+          $custom_element->setAttribute($name, $value->render($row));
+        }
+      }
       $result['rows'][] = $custom_element;
     }
 
