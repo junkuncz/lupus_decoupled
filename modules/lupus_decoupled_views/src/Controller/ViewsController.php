@@ -63,8 +63,8 @@ class ViewsController {
     $custom_element->setAttribute('view_id', $view_id);
     $custom_element->setAttribute('display_id', $display_id);
     $custom_element->setAttribute('args', $args);
-    $custom_element->setAttribute('pager', $result['#rows']['pager']);
-    $custom_element->setSlotFromNestedElements('rows', $result['#rows']['rows']);
+    $custom_element->setAttribute('pager', $result['#rows']['pager'] ?? []);
+    $custom_element->setSlotFromNestedElements('rows', $result['#rows']['rows'] ?? []);
     $custom_element->addCacheableDependency(BubbleableMetadata::createFromRenderArray($result));
     return $custom_element;
   }
