@@ -1,3 +1,4 @@
+config_rewrite: replace
 output_values:
   key: key
   title: title

@@ -6,5 +6,6 @@ package: Lupus Decoupled Drupal
 core_version_requirement: ^9 || ^10
 dependencies:
   - custom_elements:custom_elements
+  - config_rewrite:config_rewrite
   - lupus_decoupled:lupus_decoupled_ce_api
   - rest_menu_items:rest_menu_items
