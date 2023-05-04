@@ -103,7 +103,13 @@ class FileUrlGenerator implements FileUrlGeneratorInterface {
    * {@inheritdoc}
    */
   public function transformRelative(string $file_url, bool $root_relative = TRUE): string {
-    return $this->fileUrlGenerator->transformRelative($file_url, $root_relative);
+    // Prevent transform relative here when absolute file URLS are configured. This is 
+    // required for things like responsive-images to work with absolute URLs.
+    // @see _responsive_image_image_style_url()
+    if (!($this->lupusDecoupledCeApiSettings->get('absolute_file_urls') && $this->isApiResponse())) {
+      return $this->fileUrlGenerator->transformRelative($file_url, $root_relative);
+    }
+    return $file_url;
   }
 
   /**
