@@ -68,7 +68,7 @@ class BackendApiRequest implements HttpKernelInterface {
       $uri = $uri . '/';
     }
     // If homepage without trailing slash, but with query set, it won't match
-    // above so check here and insert slash in between. 
+    // above so check here and insert slash in between.
     if (strtok($uri, '?') == $this->apiPrefix) {
       $query = $request->server->get('QUERY_STRING');
       $uri = str_replace('?' . $query, '/?' . $query, $uri);
@@ -79,7 +79,7 @@ class BackendApiRequest implements HttpKernelInterface {
     $length = strlen($apiPrefixSlash);
     if (substr($uri, 0, $length) === $apiPrefixSlash) {
       // Remove the API-prefix.
-      $new_uri = substr($uri, strlen($apiPrefixSlash));
+      $new_uri = substr($uri, strlen($this->apiPrefix));
       // Apply new path by generating a new request.
       $new_request = $request->duplicate(
         NULL,
