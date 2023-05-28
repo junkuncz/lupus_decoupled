@@ -12,7 +12,7 @@
     "drunomics/service-utils": "*",
     "drupal/config_rewrite": "^1.5",
     "drupal/custom_elements": "^2.2 || 3.x-dev",
-    "drupal/lupus_ce_renderer": "^2.3.0",
+    "drupal/lupus_ce_renderer": "^2.3.3",
     "drupal/rest_menu_items": "^3.0.3",
     "drupal/trusted_redirect": "^1.11.0"
   }
