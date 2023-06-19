@@ -95,7 +95,7 @@ class BaseUrlProvider {
    *   Array of frontend base urls.
    */
   public function getAllFrontendBaseUrls(BubbleableMetadata $bubbleable_metadata = NULL) {
-    $frontend_base_urls = [$this->getFrontendBaseUrl($bubbleable_metadata)];
+    $frontend_base_urls = array_filter([$this->getFrontendBaseUrl($bubbleable_metadata)]);
     if (!empty($this->frontendBaseUrls)) {
       $frontend_base_urls = array_unique(array_merge($frontend_base_urls, $this->frontendBaseUrls));
     }
