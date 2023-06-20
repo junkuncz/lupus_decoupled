@@ -30,11 +30,11 @@ class LupusDecoupledCeApiServiceProvider extends ServiceProviderBase implements 
       // missing the overrides.
       $config_factory = BootstrapConfigStorageFactory::get();
       $settings = $config_factory->read('lupus_decoupled_ce_api.settings');
-      $frontend_base_urls = $settings === FALSE ? [] : [$settings['frontend_base_url']];
+      $frontend_base_urls = $settings === FALSE ? [] : array_filter([ $settings['frontend_base_url'] ]);
     }
 
     if ($parameter = $container->getParameter('lupus_decoupled_ce_api.frontend_base_urls')) {
-      $frontend_base_urls = array_unique(array_merge($frontend_base_url, $parameter));
+      $frontend_base_urls = array_unique(array_merge($frontend_base_urls, $parameter));
     }
     // Set frontend urls parameter to be consumed by other services.
     $container->setParameter('lupus_decoupled_ce_api.frontend_base_urls', $frontend_base_urls);
