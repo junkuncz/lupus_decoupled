@@ -11,6 +11,22 @@ use Drupal\user\Entity\Role;
  * Add config for rest_menu_items.
  */
 function lupus_decoupled_menu_install() {
+  $config = \Drupal::configFactory()->getEditable('rest.resource.rest_menu_item');
+  // Check if the configuration already exists and initialize if necessary.
+  // We cannot use config rewriting here since that fails if it's not there,
+  // but there are cases when it might be there.
+  if (!$config->get('id')) {
+    $config->set('status', true);
+    $config->set('dependencies.module', ['rest_menu_items', 'serialization', 'user']);
+    $config->set('id', 'rest_menu_item');
+    $config->set('plugin_id', 'rest_menu_item');
+    $config->set('granularity', 'resource');
+    $config->set('configuration.methods', ['GET']);
+    $config->set('configuration.formats', ['json']);
+    $config->set('configuration.authentication', ['cookie']);
+    $config->save();
+  }
+
   // Grant permissions for accessing the API.
   $role = Role::load('anonymous');
   $role->grantPermission('restful get rest_menu_item');
