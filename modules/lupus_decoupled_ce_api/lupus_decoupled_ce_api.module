@@ -15,7 +15,9 @@ function lupus_decoupled_ce_api_trusted_redirect_hosts_alter(array &$trusted_hos
   $frontend_base_urls = \Drupal::service('lupus_decoupled_ce_api.base_url_provider')
     ->getAllFrontendBaseUrls();
   foreach ($frontend_base_urls as $frontend_base_url) {
-    $trusted_hosts[] = parse_url($frontend_base_url, PHP_URL_HOST);
+    if ($frontend_base_url && $trusted_host = parse_url($frontend_base_url, PHP_URL_HOST)) {
+      $trusted_hosts[] = $trusted_host;
+    }
   }
 }
 
