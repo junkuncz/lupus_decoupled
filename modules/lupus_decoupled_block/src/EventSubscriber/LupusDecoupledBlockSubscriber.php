@@ -44,7 +44,7 @@ class LupusDecoupledBlockSubscriber implements EventSubscriberInterface {
     if ($response instanceof CustomElementsJsonResponse && !$response->isRedirect()) {
       $response_data = $response->getResponseData();
       $response->setData($response_data + [
-        'blocks' => $this->renderer->getBlocks(),
+        'blocks' => $this->renderer->getBlocks($response->getCacheableMetadata()),
       ]);
     }
   }
