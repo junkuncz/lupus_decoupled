@@ -2,9 +2,9 @@
 
 namespace Drupal\lupus_decoupled_ce_api;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Middleware for admin API Urls.

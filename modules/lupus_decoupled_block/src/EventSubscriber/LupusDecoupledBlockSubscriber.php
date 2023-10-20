@@ -2,8 +2,8 @@
 
 namespace Drupal\lupus_decoupled_block\EventSubscriber;
 
-use Drupal\lupus_decoupled_block\LupusDecoupledBlockRenderer;
 use Drupal\lupus_ce_renderer\Cache\CustomElementsJsonResponse;
+use Drupal\lupus_decoupled_block\LupusDecoupledBlockRenderer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;

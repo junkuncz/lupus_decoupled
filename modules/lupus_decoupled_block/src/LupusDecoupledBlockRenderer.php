@@ -34,6 +34,7 @@ class LupusDecoupledBlockRenderer {
    * Gets blocks data.
    *
    * @param \Drupal\Core\Cache\CacheableDependencyInterface|null $cacheableDependency
+   *   The cacheable dependency object.
    *
    * @return array
    *   Array of blocks markup, by region.
