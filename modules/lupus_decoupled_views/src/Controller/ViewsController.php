@@ -3,17 +3,46 @@
 namespace Drupal\lupus_decoupled_views\Controller;
 
 use drunomics\ServiceUtils\Core\Render\RendererTrait;
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\custom_elements\CustomElement;
 use Drupal\views\Views;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller for decoupled Views.
  */
-class ViewsController {
+class ViewsController extends ControllerBase {
 
   use RendererTrait;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * Constructs a ViewsController object.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
+   */
+  public function __construct(ModuleHandlerInterface $module_handler) {
+    $this->moduleHandler = $module_handler;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('module_handler')
+    );
+  }
 
   /**
    * Renders Views pages into custom elements.
@@ -66,6 +95,10 @@ class ViewsController {
     $custom_element->setAttribute('pager', $result['#rows']['pager'] ?? []);
     $custom_element->setSlotFromNestedElements('rows', $result['#rows']['rows'] ?? []);
     $custom_element->addCacheableDependency(BubbleableMetadata::createFromRenderArray($result));
+
+    // Allow other modules to change the custom element without replacing the entire method.
+    $this->moduleHandler()->alter('lupus_decoupled_views_page_alter', $custom_element);
+
     return $custom_element;
   }
 
