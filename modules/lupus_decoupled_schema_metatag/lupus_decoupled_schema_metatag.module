@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * General functions and hook implementations.
+ */
+
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * Implements hook_lupus_ce_renderer_response_alter().
+ *
+ * Add jsonld to response.
+ */
+function lupus_decoupled_schema_metatag_lupus_ce_renderer_response_alter(array &$data, BubbleableMetadata $bubbleable_metadata, Request $request, RouteMatchInterface $route_match = NULL) {
+  if (isset($data['metatags']['meta'])) {
+    // Schema metatags are added to metatags meta attribute of response in the
+    // same way as other metatags are. We have to filter them out and process
+    // them to create jsonld.
+    $metatags = &$data['metatags']['meta'];
+    $schema_metatag_items = _lupus_decoupled_schema_metatag_parse_json_ld($metatags);
+    if (!empty($schema_metatag_items)) {
+      $data['metatags']['jsonld'] = $schema_metatag_items;
+    }
+  }
+}
+
+/**
+ * Helper function that parses schema metatags.
+ *
+ * Adjust data structure to fit in
+ * \Drupal\schema_metatag\SchemaMetatagManager::parseJsonld. This functions
+ * also filters schema_metatags from normal metatags in response.
+ *
+ * @param array $metatags
+ *   Metatags of current response.
+ *
+ * @return array
+ *   Parsed schema metatag items.
+ */
+function _lupus_decoupled_schema_metatag_parse_json_ld(array &$metatags) {
+  $schema_metatags = [];
+  foreach ($metatags as $key => $item) {
+    if (!empty($item['schema_metatag'])) {
+      $schema_metatags[$key][]['#attributes'] = $item;
+      unset($metatags[$key]);
+    }
+  }
+  // Re-order non-schema metatags.
+  $metatags = array_values($metatags);
+  if (!empty($schema_metatags)) {
+    $schema_metatag_manager = \Drupal::service('schema_metatag.schema_metatag_manager');
+    $items = $schema_metatag_manager->parseJsonld($schema_metatags);
+  }
+  return $items ?? [];
+}
