@@ -88,7 +88,7 @@ class ViewsController extends ControllerBase {
     // Build a view as a custom element.
     $custom_element = new CustomElement();
     $custom_element->setTag('drupal-view');
-    $custom_element->setAttribute('title', $view->build_info['title']);
+    $custom_element->setAttribute('title', $view->getTitle());
     $custom_element->setAttribute('view_id', $view_id);
     $custom_element->setAttribute('display_id', $display_id);
     $custom_element->setAttribute('args', $args);
