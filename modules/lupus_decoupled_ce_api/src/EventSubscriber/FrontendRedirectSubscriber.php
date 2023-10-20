@@ -75,7 +75,8 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    if (in_array($this->getCurrentRouteMatch()->getRouteName(), $this->frontendRoutes)) {
+    if (in_array($this->getCurrentRouteMatch()->getRouteName(), $this->frontendRoutes)
+      && ($event->getRequest()->getMethod()) != 'POST') {
       $route_match = $this->getCurrentRouteMatch();
       // For entity routes, get entity-specific frontend base URLs.
       if (preg_match('/entity\.[a-z]+\.canonical/', $route_match->getRouteName())) {
