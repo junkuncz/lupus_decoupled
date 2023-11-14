@@ -98,6 +98,15 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
           $redirect_url = $frontend_base_url . $this->getCurrentRequest()->getRequestUri();
         }
       }
+
+      // Prevent Core's RedirectResponseSubscriber from redirecting back to the
+      // original request's destination, ignoring our response.
+      $request_query_parameters = $this->requestStack->getCurrentRequest()->query;
+      $destination = $request_query_parameters->get('destination');
+      if ($destination) {
+        $request_query_parameters->remove('destination');
+      }
+
       $event->setResponse(new TrustedRedirectResponse($redirect_url));
       $event->stopPropagation();
     }
