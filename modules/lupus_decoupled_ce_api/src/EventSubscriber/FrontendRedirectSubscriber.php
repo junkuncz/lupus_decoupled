@@ -48,7 +48,7 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
    * FrontendRedirectSubscriber constructor.
    *
    * @param \Drupal\Core\Config\ImmutableConfig $lupusDecoupledCeApiSettings
-   * The lupus decoupled ce api settings configuration.
+   *   The lupus decoupled ce api settings configuration.
    * @param string[] $frontendRoutes
    *   The routes to redirect.
    */

@@ -60,7 +60,7 @@ class LupusDecoupledSettingsForm extends ConfigFormBase {
 
     $form['absolute_file_urls'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Generate custom-elements API responses with absolute file URLs.'),
+      '#title' => $this->t('Generate custom-elements API responses with absolute file URLs'),
       '#default_value' => $config->get('absolute_file_urls') ?? TRUE,
       '#description' => $this->t('Serving files and images using absolute URLs keeps the file URLs working in a decoupled frontend. When disabled, care must be taken to resolve URLs otherwise.'),
     ];

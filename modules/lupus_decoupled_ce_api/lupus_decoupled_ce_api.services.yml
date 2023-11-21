@@ -11,7 +11,7 @@ services:
     arguments: [ 'lupus_decoupled_ce_api.settings' ]
   lupus_decoupled_ce_api.base_url_provider:
     class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
-    arguments: [ '@lupus_decoupled_ce_api.settings', '%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.frontend_base_urls%' ]
+    arguments: [ '@lupus_decoupled_ce_api.settings', '@language_manager', '%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.frontend_base_urls%' ]
   lupus_decoupled_ce_api.event_subscriber:
     class: Drupal\lupus_decoupled_ce_api\EventSubscriber\FrontendRedirectSubscriber
     arguments: [ '@lupus_decoupled_ce_api.settings', '%lupus_decoupled_ce_api.frontend_routes%' ]

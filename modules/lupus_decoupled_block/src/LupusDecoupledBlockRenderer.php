@@ -4,7 +4,7 @@ namespace Drupal\lupus_decoupled_block;
 
 use drunomics\ServiceUtils\Core\Render\RendererTrait;
 use Drupal\block\BlockRepositoryInterface;
-use Drupal\Core\Cache\CacheableDependencyInterface;
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\custom_elements\CustomElement;
 
 /**
@@ -33,7 +33,7 @@ class LupusDecoupledBlockRenderer {
   /**
    * Gets blocks data.
    *
-   * @param \Drupal\Core\Cache\CacheableDependencyInterface|null $cacheableDependency
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface|null $cacheableDependency
    *   The cacheable dependency object.
    *
    * @return array
@@ -41,7 +41,8 @@ class LupusDecoupledBlockRenderer {
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    */
-  public function getBlocks(CacheableDependencyInterface $cacheableDependency = NULL) {
+  public function getBlocks(RefinableCacheableDependencyInterface $cacheableDependency = NULL) {
+    $output = [];
     $blocksPerRegion = $this->blockRepository->getVisibleBlocksPerRegion();
     foreach ($blocksPerRegion as $region => $blocks) {
       foreach ($blocks as $block) {

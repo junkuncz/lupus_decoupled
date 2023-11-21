@@ -16,7 +16,7 @@ function lupus_decoupled_menu_install() {
   // We cannot use config rewriting here since that fails if it's not there,
   // but there are cases when it might be there.
   if (!$config->get('id')) {
-    $config->set('status', true);
+    $config->set('status', TRUE);
     $config->set('dependencies.module', ['rest_menu_items', 'serialization', 'user']);
     $config->set('id', 'rest_menu_item');
     $config->set('plugin_id', 'rest_menu_item');

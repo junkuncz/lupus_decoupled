@@ -5,6 +5,7 @@
  * General functions and hook implementations.
  */
 
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -40,13 +41,15 @@ function lupus_decoupled_ce_api_form_node_form_alter(&$form, FormStateInterface 
 function _lupus_decoupled_ce_api_form_submit_add_auth(array &$form, FormStateInterface $form_state) {
   $url = $form_state->getRedirect();
   if (!empty($url)) {
-    $entity = $form_state->getFormObject()->getEntity();
-    $url = $entity->toUrl();
-    // Add an "auth=1" query-parameter so a static-generated frontend would
-    // do an API-call to fetch the latest content. This ensures editors can
-    // see their changes immediately when being redirected to the frontend.
-    $url->setOption('query', ['auth' => 1]);
-    $form_state->setRedirectUrl($url);
+    $form_object = $form_state->getFormObject();
+    if ($form_object instanceof EntityFormInterface) {
+      $url = $form_object->getEntity()->toUrl();
+      // Add an "auth=1" query-parameter so a static-generated frontend would
+      // do an API-call to fetch the latest content. This ensures editors can
+      // see their changes immediately when being redirected to the frontend.
+      $url->setOption('query', ['auth' => 1]);
+      $form_state->setRedirectUrl($url);
+    }
   }
 }
 

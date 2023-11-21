@@ -1,0 +1,12 @@
+lupus_decoupled_ce_api.settings:
+  type: config_object
+  mapping:
+    absolute_file_urls:
+      type: boolean
+      label: 'Generate custom-elements API responses with absolute file URLs'
+    frontend_base_url:
+      type: string
+      label: 'Frontend Base URL'
+    frontend_routes_redirect:
+      type: boolean
+      label: 'View content on decoupled frontend'

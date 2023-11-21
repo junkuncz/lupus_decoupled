@@ -35,7 +35,7 @@ class LupusFrontendPathProcessor implements OutboundPathProcessorInterface {
   /**
    * Path Alias Manager service.
    *
-   * @var \Drupal\path_alias\PathAliasInterface
+   * @var \Drupal\path_alias\AliasManagerInterface
    */
   protected $aliasManager;
 

@@ -4,6 +4,7 @@ namespace Drupal\lupus_decoupled_ce_api;
 
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\Url;
@@ -46,17 +47,27 @@ class BaseUrlProvider {
   protected $lupusDecoupledCeApiSettings;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Constructor.
    *
    * @param \Drupal\Core\Config\ImmutableConfig $lupusDecoupledCeApiSettings
    *   The lupus decoupled ce api settings configuration.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The language manager.
    * @param string $apiPrefix
    *   The api path prefix.
    * @param string[] $frontendBaseUrls
    *   The frontend base urls.
    */
-  public function __construct(ImmutableConfig $lupusDecoupledCeApiSettings, string $apiPrefix, array $frontendBaseUrls) {
+  public function __construct(ImmutableConfig $lupusDecoupledCeApiSettings, LanguageManagerInterface $languageManager, string $apiPrefix, array $frontendBaseUrls) {
     $this->lupusDecoupledCeApiSettings = $lupusDecoupledCeApiSettings;
+    $this->languageManager = $languageManager;
     $this->apiPrefix = $apiPrefix;
     $this->frontendBaseUrls = $frontendBaseUrls;
   }
@@ -136,7 +147,7 @@ class BaseUrlProvider {
   public function getAdminBaseUrl(BubbleableMetadata $bubbleable_metadata = NULL) {
     $url_options = [
       'absolute' => TRUE,
-      'language' => \Drupal::languageManager()->getCurrentLanguage(),
+      'language' => $this->languageManager->getCurrentLanguage(),
     ];
     $admin_base_url = Url::fromRoute('<front>', [], $url_options)->toString();
     return rtrim($admin_base_url, '/');

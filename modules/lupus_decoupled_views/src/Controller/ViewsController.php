@@ -96,7 +96,8 @@ class ViewsController extends ControllerBase {
     $custom_element->setSlotFromNestedElements('rows', $result['#rows']['rows'] ?? []);
     $custom_element->addCacheableDependency(BubbleableMetadata::createFromRenderArray($result));
 
-    // Allow other modules to change the custom element without replacing the entire method.
+    // Allow other modules to change the custom element without replacing the
+    // entire method.
     $this->moduleHandler()->alter('lupus_decoupled_views_page_alter', $custom_element);
 
     return $custom_element;
