@@ -5,7 +5,7 @@ namespace Drupal\lupus_decoupled_ce_api\EventSubscriber;
 use drunomics\ServiceUtils\Core\Routing\CurrentRouteMatchTrait;
 use drunomics\ServiceUtils\Symfony\HttpFoundation\RequestStackTrait;
 use Drupal\Core\Cache\CacheableResponseInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\lupus_decoupled_ce_api\BaseUrlProviderTrait;
@@ -24,13 +24,6 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   use RequestStackTrait;
 
   /**
-   * The module config object.
-   *
-   * @var \Drupal\Core\Config\Config
-   */
-  protected $config;
-
-  /**
    * An array of routes to redirect to the frontend.
    *
    * Contains 'entity.node.canonical' and possibly others.
@@ -45,15 +38,22 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   protected $frontendRoutes;
 
   /**
+   * The lupus_decoupled_ce_api.settings configuration object.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $lupusDecoupledCeApiSettings;
+
+  /**
    * FrontendRedirectSubscriber constructor.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The config factory service.
+   * @param \Drupal\Core\Config\ImmutableConfig $lupusDecoupledCeApiSettings
+   * The lupus decoupled ce api settings configuration.
    * @param string[] $frontendRoutes
    *   The routes to redirect.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, array $frontendRoutes) {
-    $this->config = $config_factory->get('lupus_decoupled_ce_api.settings');
+  public function __construct(ImmutableConfig $lupusDecoupledCeApiSettings, array $frontendRoutes) {
+    $this->lupusDecoupledCeApiSettings = $lupusDecoupledCeApiSettings;
     $this->frontendRoutes = $frontendRoutes;
   }
 
@@ -69,7 +69,7 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    if ($this->getBaseUrlProvider()->getFrontendBaseUrl() == NULL || !$this->config->get('frontend_routes_redirect')) {
+    if ($this->getBaseUrlProvider()->getFrontendBaseUrl() == NULL || !$this->lupusDecoupledCeApiSettings->get('frontend_routes_redirect')) {
       // Exit if frontend_base_url is not set
       // or if frontend redirect is disabled.
       return;
@@ -121,7 +121,7 @@ class FrontendRedirectSubscriber implements EventSubscriberInterface {
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();
     if ($response instanceof CacheableResponseInterface) {
-      $response->addCacheableDependency($this->config);
+      $response->addCacheableDependency($this->lupusDecoupledCeApiSettings);
     }
   }
 

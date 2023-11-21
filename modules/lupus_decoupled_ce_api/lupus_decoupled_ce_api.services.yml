@@ -11,10 +11,10 @@ services:
     arguments: [ 'lupus_decoupled_ce_api.settings' ]
   lupus_decoupled_ce_api.base_url_provider:
     class: Drupal\lupus_decoupled_ce_api\BaseUrlProvider
-    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.frontend_base_urls%' ]
+    arguments: [ '@lupus_decoupled_ce_api.settings', '%lupus_decoupled_ce_api.api_prefix%', '%lupus_decoupled_ce_api.frontend_base_urls%' ]
   lupus_decoupled_ce_api.event_subscriber:
     class: Drupal\lupus_decoupled_ce_api\EventSubscriber\FrontendRedirectSubscriber
-    arguments: [ '@config.factory', '%lupus_decoupled_ce_api.frontend_routes%' ]
+    arguments: [ '@lupus_decoupled_ce_api.settings', '%lupus_decoupled_ce_api.frontend_routes%' ]
     tags:
       - { name: event_subscriber }
   lupus_decoupled_ce_api.frontend_path_processor:

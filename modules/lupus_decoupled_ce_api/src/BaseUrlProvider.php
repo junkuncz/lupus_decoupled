@@ -2,7 +2,7 @@
 
 namespace Drupal\lupus_decoupled_ce_api;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\StreamWrapper\PublicStream;
@@ -17,13 +17,6 @@ use Drupal\Core\Url;
  * lupus_decoupled_ce_api.frontend_base_urls container parameter).
  */
 class BaseUrlProvider {
-
-  /**
-   * The module config object.
-   *
-   * @var \Drupal\Core\Config\Config
-   */
-  protected $config;
 
   /**
    * An array of paths to redirect to the frontend.
@@ -44,18 +37,26 @@ class BaseUrlProvider {
    */
   protected $frontendBaseUrls;
 
+
+  /**
+   * The lupus_decoupled_ce_api.settings configuration object.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $lupusDecoupledCeApiSettings;
+
   /**
    * Constructor.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The config factory service.
+   * @param \Drupal\Core\Config\ImmutableConfig $lupusDecoupledCeApiSettings
+   *   The lupus decoupled ce api settings configuration.
    * @param string $apiPrefix
    *   The api path prefix.
    * @param string[] $frontendBaseUrls
    *   The frontend base urls.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, string $apiPrefix, array $frontendBaseUrls) {
-    $this->config = $config_factory->get('lupus_decoupled_ce_api.settings');
+  public function __construct(ImmutableConfig $lupusDecoupledCeApiSettings, string $apiPrefix, array $frontendBaseUrls) {
+    $this->lupusDecoupledCeApiSettings = $lupusDecoupledCeApiSettings;
     $this->apiPrefix = $apiPrefix;
     $this->frontendBaseUrls = $frontendBaseUrls;
   }
@@ -78,9 +79,9 @@ class BaseUrlProvider {
       return $frontend_base_url;
     }
     if (isset($bubbleable_metadata)) {
-      $bubbleable_metadata->addCacheableDependency($this->config);
+      $bubbleable_metadata->addCacheableDependency($this->lupusDecoupledCeApiSettings);
     }
-    return $this->config->get('frontend_base_url') ?? NULL;
+    return $this->lupusDecoupledCeApiSettings->get('frontend_base_url') ?? NULL;
   }
 
   /**
@@ -116,7 +117,7 @@ class BaseUrlProvider {
   public function getFrontendBaseUrlForEntity(EntityInterface $entity, BubbleableMetadata $bubbleable_metadata = NULL) {
     $base_url = $this->getFrontendBaseUrl($bubbleable_metadata);
     if (isset($bubbleable_metadata)) {
-      $bubbleable_metadata->addCacheableDependency($this->config);
+      $bubbleable_metadata->addCacheableDependency($this->lupusDecoupledCeApiSettings);
     }
     // It's the same for all entities now but can be overwritten
     // in case multiple frontends are supported.
