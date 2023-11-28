@@ -1,0 +1,5 @@
+services:
+  lupus_decoupled_layout_builder.route_subscriber:
+    class: Drupal\lupus_decoupled_layout_builder\EventSubscriber\LupusDecoupledLayoutBuilderRouteSubscriber
+    tags:
+      - { name: event_subscriber }

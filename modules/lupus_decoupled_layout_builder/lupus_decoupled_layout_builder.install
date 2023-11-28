@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Install file for Lupus Decoupled Layout Builder module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function lupus_decoupled_layout_builder_install() {
+  // Make sure our module comes after custom_elements.
+  module_set_weight('lupus_decoupled_layout_builder', 11);
+}
+
+/**
+ * Set module weight.
+ */
+function lupus_decoupled_layout_builder_update_8001() {
+  // Make sure our module comes after custom_elements.
+  module_set_weight('lupus_decoupled_layout_builder', 11);
+}

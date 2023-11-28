@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install file for Lupus Decoupled Responsive Preview module.
+ */
+
+use Drupal\Core\Cache\Cache;
+
+/**
+ * Implements hook_install().
+ */
+function lupus_decoupled_responsive_preview_install() {
+  // Clear library info so responsive_preview gets altered.
+  Cache::invalidateTags(['library_info']);
+}

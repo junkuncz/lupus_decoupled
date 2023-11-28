@@ -14,3 +14,4 @@ test_dependencies:
   - lupus_ce_renderer:lupus_ce_renderer
   - custom_elements:custom_elements
   - drupal:path_alias
+  - responsive_preview:responsive_preview

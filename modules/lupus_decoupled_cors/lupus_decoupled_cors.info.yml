@@ -5,4 +5,4 @@ package: Lupus Decoupled Drupal
 
 core_version_requirement: ^9 || ^10
 dependencies:
-  - drupal:lupus_decoupled_ce_api
+  - lupus_decoupled:lupus_decoupled_ce_api

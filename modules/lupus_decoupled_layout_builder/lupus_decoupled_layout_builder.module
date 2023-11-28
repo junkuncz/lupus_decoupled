@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * General functions and hooks for Lupus Decoupled Layout Builder module.
+ */
+
+use Drupal\lupus_decoupled_layout_builder\CustomElementsLayoutBuilderPreviewEntityViewDisplay;
+
+/**
+ * Implements hook_entity_type_alter().
+ *
+ * @see lupus_decoupled_preview_module_implements_alter()
+ */
+function lupus_decoupled_layout_builder_entity_type_alter(array &$entity_types) {
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
+  $entity_types['entity_view_display']
+    ->setClass(CustomElementsLayoutBuilderPreviewEntityViewDisplay::class);
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function lupus_decoupled_layout_builder_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'entity_type_alter') {
+    // Make sure this runs after custom elements as weight won't work here.
+    // Issue: https://www.drupal.org/project/drupal/issues/2886083
+    $group = $implementations['lupus_decoupled_layout_builder'];
+    unset($implementations['lupus_decoupled_layout_builder']);
+    $implementations['lupus_decoupled_layout_builder'] = $group;
+  }
+}

@@ -8,6 +8,8 @@
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\node\NodeForm;
 
 /**
  * Implements hook_trusted_redirect_hosts_alter().
@@ -28,6 +30,36 @@ function lupus_decoupled_ce_api_trusted_redirect_hosts_alter(array &$trusted_hos
 function lupus_decoupled_ce_api_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Add new submit handler for adding ?auth=1 after editing a node.
   $form['actions']['submit']['#submit'][] = '_lupus_decoupled_ce_api_form_submit_add_auth';
+  // Replace preview submit handler for redirecting to the proper front end.
+  // Adding ?auth=1 will be done by LupusPreviewPathProcessor.
+  if ($index = array_search('::preview', $form['actions']['preview']['#submit'])) {
+    $form['actions']['preview']['#submit'][$index] = '_lupus_decoupled_ce_api_node_preview_submit';
+  }
+}
+
+/**
+ * Prepares preview on the front end to work properly.
+ *
+ * @param array $form
+ *   Form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state object.
+ */
+function _lupus_decoupled_ce_api_node_preview_submit(array &$form, FormStateInterface $form_state) {
+  // Execute original submit.
+  $form_object = $form_state->getFormObject();
+  assert($form_object instanceof NodeForm);
+  $form_object->preview($form, $form_state);
+
+  // Non-responsive preview uses the URL in the form state, set by above code.
+  // (Responsive preview cancels redirection).
+  $preview_url = $form_state->getRedirect();
+  if ($preview_url) {
+    assert($preview_url instanceof Url);
+    // The URL might have the wrong frontend base URL.
+    // LupusFrontendPathProcessor can correct this but needs an entity option.
+    $preview_url->setOption('entity', $form_object->getEntity());
+  }
 }
 
 /**

@@ -1,0 +1,9 @@
+name: 'Lupus Decoupled Responsive Preview'
+description: 'Changes behavior of responsive preview module.'
+type: module
+package: Lupus Decoupled Drupal
+
+core_version_requirement: ^9 || ^10
+dependencies:
+  - lupus_decoupled:lupus_decoupled_ce_api
+  - responsive_preview:responsive_preview

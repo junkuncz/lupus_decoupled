@@ -1,0 +1,5 @@
+services:
+  lupus_decoupled_responsive_preview.content_security_event_subscriber:
+    class: Drupal\lupus_decoupled_responsive_preview\EventSubscriber\ContentSecurityEventSubscriber
+    tags:
+      - { name: event_subscriber }

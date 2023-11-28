@@ -50,5 +50,6 @@ parameters:
   # Todo: Make frontend path processing take frontend routes into account.
   lupus_decoupled_ce_api.frontend_paths:
     - '/node/{node}'
+    - '/node/preview/{node_preview}/{view_mode_id}'
   # For one or more frontend sites that connect to the same backend.
   lupus_decoupled_ce_api.frontend_base_urls: null
