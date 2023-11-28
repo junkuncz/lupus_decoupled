@@ -10,7 +10,7 @@ use Drupal\user\Entity\Role;
 /**
  * Add config for rest_menu_items.
  */
-function lupus_decoupled_menu_install() {
+function lupus_decoupled_menu_install($is_syncing) {
   $config = \Drupal::configFactory()->getEditable('rest.resource.rest_menu_item');
   // Check if the configuration already exists and initialize if necessary.
   // We cannot use config rewriting here since that fails if it's not there,
@@ -27,11 +27,15 @@ function lupus_decoupled_menu_install() {
     $config->save();
   }
 
-  // Grant permissions for accessing the API.
-  $role = Role::load('anonymous');
-  $role->grantPermission('restful get rest_menu_item');
-  $role->save();
-  $role = Role::load('authenticated');
-  $role->grantPermission('restful get rest_menu_item');
-  $role->save();
+  // Do not mess with config during syncing.
+  if (!$is_syncing) {
+    // Grant permissions for accessing the API.
+    foreach (['anonymous', 'authenticated'] as $role_id) {
+      $role = Role::load($role_id);
+      if ($role) {
+        $role->grantPermission('restful get rest_menu_item');
+        $role->save();
+      }
+    }
+  }
 }
