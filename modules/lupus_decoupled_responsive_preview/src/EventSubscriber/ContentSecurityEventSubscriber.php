@@ -38,7 +38,7 @@ class ContentSecurityEventSubscriber implements EventSubscriberInterface {
         $parsed_url = parse_url($url);
         $hostname_parts = explode('.', $parsed_url['host'] ?? '');
         foreach ($hostname_parts as &$part) {
-          if (str_contains($url, '_')) {
+          if (str_contains($part, '_')) {
             $part = '*';
           }
         }
